@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block title %}Все транзакции{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Все транзакции</h2>
+    <div class="d-flex gap-2">
+        <a href="{% url 'income_add' %}" class="btn btn-success">➕ Добавить доход</a>
+        <a href="{% url 'expense_add' %}" class="btn btn-danger">➖ Добавить расход</a>
+    </div>
+</div>
+
+<table class="table table-striped table-bordered shadow-sm bg-white">
+    <thead class="table-dark">
+        <tr>
+            <th>Дата</th>
+            <th>Тип</th>
+            <th>Категория</th>
+            <th>Описание</th>
+            <th class="text-end">Сумма</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for t in transactions %}
+        <tr class="{% if t.type == 'Доход' %}table-success{% else %}table-danger{% endif %}">
+            <td>{{ t.type }}</td>
+            <td>{{ t.date|date:"d.m.Y" }}</td>
+            <td>{{ t.category.name }}</td>
+            <td>{{ t.description }}</td>
+            <td class="text-end">
+                {% if t.type == 'Доход' %}
+                    +{{ t.amount|floatformat:2|intcomma }} BYN
+                {% else %}
+                    -{{ t.amount|floatformat:2|intcomma }} BYN
+                {% endif %}
+            </td>
+            <td class="text-center">
+                {% if t.type == 'Доход' %}
+                    <a href="{% url 'income_edit' t.id %}" class="btn btn-sm btn-warning">✏️</a>
+                    <a href="{% url 'income_delete' t.id %}" class="btn btn-sm btn-danger">🗑</a>
+                {% else %}
+                    <a href="{% url 'expense_edit' t.id %}" class="btn btn-sm btn-warning">✏️</a>
+                    <a href="{% url 'expense_delete' t.id %}" class="btn btn-sm btn-danger">🗑</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Удалить расход{% endblock %}
+
+{% block content %}
+<div class="card p-4 shadow-sm bg-white">
+    <h4>Вы точно хотите удалить этот расход?</h4>
+    <p><strong>{{ expense.category.name }}</strong> — {{ expense.amount }} BYN</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">🗑 Удалить</button>
+        <a href="{% url 'index' %}" class="btn btn-secondary">Отмена</a>
+    </form>
+</div>
+{% endblock %}

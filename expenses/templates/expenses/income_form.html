@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Добавить доход{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">{% if form.instance.pk %}Редактировать{% else %}Добавить{% endif %} доход</h2>
+
+<form method="post" class="card p-4 shadow-sm bg-white">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">💾 Сохранить</button>
+    <a href="{% url 'index' %}" class="btn btn-secondary">⬅️ Назад</a>
+</form>
+{% endblock %}
